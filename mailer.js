@@ -11,7 +11,7 @@ const sendEmail = async (email, subject, text) => {
         pass: process.env.USER_PASS,
       },
       tls: {
-        // do not fail on invalid certs
+        // do not fail on invalid certss
         rejectUnauthorized: false,
       },
     });
