@@ -11,7 +11,6 @@ var bodyParser = require("body-parser");
 
 const axiosApiInstance = axios.create();
 dotenv.config();
-const path = require("path");
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
