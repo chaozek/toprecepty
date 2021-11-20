@@ -34,7 +34,7 @@ router.post("/reset-password", async (req, res) => {
         token: crypto.randomBytes(32).toString("hex"),
       }).save();
     }
-    const link = `http://localhost:3000/password-reset/${result._id}/${token.token}`;
+    const link = `https://toprecepty.herokuapp.com/password-reset/${result._id}/${token.token}`;
     await sendEmail(result.email, "Password Reset For Top Recipes", link);
     res.status(200).json({ message: "Check Your E-mail To Reset Password" });
   } catch (error) {
