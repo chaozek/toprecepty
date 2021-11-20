@@ -14,9 +14,9 @@ const sendEmail = async (email, subject, text) => {
       to: email,
       subject: subject,
       text: text,
-      tls: {
+      /*       tls: {
         rejectUnauthorized: false,
-      },
+      }, */
     });
     console.log("email sent sucessfully");
   } catch (error) {
