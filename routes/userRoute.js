@@ -38,13 +38,11 @@ router.post("/reset-password", async (req, res) => {
     await sendEmail(result.email, "Password Reset For Top Recipes", link);
     res.status(200).json({ message: "Check Your E-mail To Reset Password" });
   } catch (error) {
-    console.log(error);
     res.status(500).json("Something Went Wrong");
   }
 });
 
 router.post(`/reset-password/:userId/:token`, async (req, res) => {
-  console.log(req.body.password);
   const id = req.params.userId;
   try {
     const result = await User.findById(id);
