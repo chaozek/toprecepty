@@ -10,8 +10,8 @@ import styled from "styled-components";
 const SearchBar = () => {
   const [term, setTerm] = useState("");
   const dispatch = useDispatch();
-    const history = useHistory();
-    
+  const history = useHistory();
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (history.location !== "/") {
@@ -25,7 +25,7 @@ const SearchBar = () => {
       setTerm("");
     }
   };
-    
+
   return (
     <SearchContainer>
       <Form onSubmit={submitHandler}>

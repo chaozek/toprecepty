@@ -394,6 +394,7 @@ const Left = styled.div`
   background-color: ${theme.color.white};
   margin: 10px;
   min-width: 200px;
+  border-radius: 5px;
 `;
 const Section = styled.div`
   display: flex;
@@ -458,6 +459,7 @@ const Image = styled.img`
   width: 40%;
   height: 100%;
   object-fit: contain;
+  border-radius: 5px;
 `;
 const Right = styled.div`
   flex: 2;
@@ -465,6 +467,8 @@ const Right = styled.div`
   background-color: ${theme.color.white};
   margin: 10px;
   font-family: "Patrick Hand", cursive;
+  border-radius: 5px;
+
 `;
 const RightImage = styled.div`
   flex: 1;

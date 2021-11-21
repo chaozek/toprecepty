@@ -47,6 +47,8 @@ export const Container = styled.div`
   flex-wrap: wrap;
   width: 100%;
   padding: 30px 0px;
+  border-radius: 5px;
+
   ${mobile({ padding: "30px 0px 0px 0px" })}
 `;
 const Left = styled.div`
@@ -96,6 +98,7 @@ const Button = styled.button`
   flex: 1;
   transition: all 300ms ease-in-out;
   width: ${(props) => (props.fullWidth ? "100%" : "")};
+  
   &:hover {
     background-color: ${theme.color.orange};
   }

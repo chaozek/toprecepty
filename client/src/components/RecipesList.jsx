@@ -48,17 +48,7 @@ const RecipesList = () => {
   );
 };
 const Container = styled.div``;
-const Header = styled.h2`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
-  color: ${theme.color.white};
-  transition: color 250ms ease-in-out;
-`;
+
 const Recipes = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   display: grid;
@@ -82,11 +72,24 @@ const Inside = styled.div`
     transform: scale(1.1);
   }
 `;
+const Header = styled.h2`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+  color: ${theme.color.white};
+  transition: color 250ms ease-in-out;
+`;
 const LinkWrap = styled(Link)`
   position: relative;
   background-color: white;
   cursor: pointer;
   display: inline-block;
+  border-radius: 5px;
+
   overflow: hidden;
   &:hover ${Header} {
     color: ${theme.color.orange};
