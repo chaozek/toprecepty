@@ -12,10 +12,11 @@ const UpperHeader = () => {
   const localStorageItem = JSON.parse(localStorage.getItem("profile"));
   const history = useHistory();
   const newUser = useSelector((state) => state?.user.user.result);
+  let userNameLenght = newUser?.username.length;
   useEffect(() => {
     if (
-      (location.pathname === "/login" && newUser) ||
-      (location.pathname === "/register" && newUser)
+      (location.pathname === "/login" && userNameLenght > 0) ||
+      (location.pathname === "/register" && userNameLenght > 0)
     ) {
       history.push("/");
     }
@@ -33,14 +34,18 @@ const UpperHeader = () => {
     }
     // eslint-disable-next-line
   }, [dispatch]);
-
+  console.log(newUser.username.length);
   return (
     <Container>
       <Left>{newUser ? <p>{newUser.username.toUpperCase()}</p> : ""}</Left>
       <Right>
-        {newUser ? "" : <LinkWrap to="/login">Login</LinkWrap>}
-        {newUser ? "" : <LinkWrap to="/register">Register</LinkWrap>}
-        {newUser ? <P onClick={() => dispatch(logout())}>Logout</P> : ""}
+        {userNameLenght > 0 ? "" : <LinkWrap to="/login">Login</LinkWrap>}
+        {userNameLenght > 0 ? "" : <LinkWrap to="/register">Register</LinkWrap>}
+        {userNameLenght > 0 ? (
+          <P onClick={() => dispatch(logout())}>Logout</P>
+        ) : (
+          ""
+        )}
       </Right>
     </Container>
   );

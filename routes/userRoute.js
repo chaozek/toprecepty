@@ -82,7 +82,6 @@ router.post("/signin", async (req, res) => {
       res.status(400).json("Wrong Password");
       return;
     }
-
     const token = jwt.sign(
       {
         email: result.email,

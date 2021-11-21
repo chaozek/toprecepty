@@ -64,7 +64,7 @@ const userSlice = createSlice({
       state.user = JSON.parse(localStorage.getItem("profile"));
     },
     logout: (state, action) => {
-      state.user = "";
+      state.user = { result: { email: "", password: "", username: "" } };
       localStorage.clear();
     },
     removeUserError: (state, action) => {
