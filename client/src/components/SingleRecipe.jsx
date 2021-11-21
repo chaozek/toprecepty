@@ -415,10 +415,10 @@ const Text = styled.p`
 `;
 const Ul = styled.ul``;
 const TutorialBlock = styled.div`
+  position: relative;
   background-color: ${theme.color.white};
   min-height: 100px;
   padding: 20px;
-  position: relative;
   margin-bottom: 20px;
   background-color: ${theme.color.gray};
   border-left: 2px dashed ${theme.color.orange};
@@ -445,7 +445,7 @@ const Count = styled.div`
   height: 25px;
   border-radius: 50%;
   width: 25px;
-  background-color: #${theme.color.orange};
+  background-color: ${theme.color.orange};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -468,7 +468,6 @@ const Right = styled.div`
   margin: 10px;
   font-family: "Patrick Hand", cursive;
   border-radius: 5px;
-
 `;
 const RightImage = styled.div`
   flex: 1;
