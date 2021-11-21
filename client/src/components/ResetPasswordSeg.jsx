@@ -30,7 +30,6 @@ const ResetPasswordSeg = () => {
       email: e.target.value,
     }));
   };
-  console.log(disabled);
   return (
     <Container>
       <Form>

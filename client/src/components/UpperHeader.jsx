@@ -11,7 +11,7 @@ const UpperHeader = () => {
   const dispatch = useDispatch();
   const localStorageItem = JSON.parse(localStorage.getItem("profile"));
   const history = useHistory();
-  const newUser = useSelector((state) => state.user.user.result);
+  const newUser = useSelector((state) => state?.user.user.result);
 
   useEffect(() => {
     if (
@@ -26,14 +26,14 @@ const UpperHeader = () => {
         dispatch(logout());
       }
     }
-    /* eslint-disable */
-  }, [newUser, history]);
+  }, [newUser, history, dispatch, localStorageItem, location.pathname]);
 
   useEffect(() => {
     if (localStorageItem) {
       dispatch(auth());
     }
-  }, []);
+// eslint-disable-next-line
+}, [dispatch]);
 
   return (
     <Container>

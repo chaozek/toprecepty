@@ -14,6 +14,7 @@ input {
   all: unset;
 }
   body {
+    -webkit-appearance:none;
     margin: 0;
     padding: 0;
     box-sizing: border-box; 
@@ -22,6 +23,8 @@ input {
 ;
 html{
   background-color: ${theme.color.gray};
+  -webkit-appearance:none;
+
 
 }
   }
@@ -34,7 +37,6 @@ a{
   flex-direction: column;
   text-decoration: none;
   color: black;
-
   }
 
 
@@ -48,7 +50,12 @@ textarea {
     resize: none ;
     font-size:16px;
 }
-
+select{
+  -webkit-appearance:none;
+}
+option{
+  -webkit-appearance:none;
+}
 button{
   -webkit-appearance: none;
 -moz-appearance: none;
@@ -56,6 +63,7 @@ appearance: none;
 }
 input{
   font-size: 16px;
+  -webkit-appearance:none;
   padding: 10px;
 }
 input[type="date"]::-webkit-datetime-edit-text,
@@ -80,18 +88,5 @@ input[type="radio"]{
     padding: 0
 }
 
-::placeholder,
-  ::-webkit-input-placeholder {
-
-  }
-  :-ms-input-placeholder {
-
-  }
-label{
-  display: block;
-  font-size: 14px;
-  padding: 1rem 0rem 0rem 0rem;
-
-}
 
 `;

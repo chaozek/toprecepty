@@ -57,7 +57,7 @@ const SingleRecipe = () => {
     return () => {
       dispatch(removeDetails());
     };
-  }, [recipe, status, dispatch]);
+  }, [recipe.creator, status, dispatch]);
 
   const handleDelete = () => {
     dispatch(removeRecipeFromArray(slug.id));
@@ -121,7 +121,7 @@ const SingleRecipe = () => {
     return (
       <InputWrapper>
         <Input
-          value={changeRecipe[type]}
+          value={changeRecipe[type] || ""}
           onChange={(e) => handleChangeRecipe(e, type)}
           type="text"
         />
@@ -134,10 +134,10 @@ const SingleRecipe = () => {
 
   const renderEditDropdownView = () => {
     return (
-      <>
+      <InputWrapper>
         <Select
           onChange={(e) => handleChangeRecipe(e, "level")}
-          value={changeRecipe.level}
+          value={changeRecipe.level || ""}
           name="level"
         >
           <Option value="Simple">Simple</Option>
@@ -147,7 +147,7 @@ const SingleRecipe = () => {
         <Button color="ed1c24" onClick={saveChangeRecipe}>
           SAVE
         </Button>
-      </>
+      </InputWrapper>
     );
   };
 
@@ -156,7 +156,7 @@ const SingleRecipe = () => {
       return (
         <>
           <TextArea
-            value={changeRecipe.tutorial[editMode.listEl]}
+            value={changeRecipe.tutorial[editMode.listEl] || ""}
             onChange={(e) => handleChangeRecipe(e, "tutorial", editMode.listEl)}
             type="text"
           />
@@ -171,7 +171,7 @@ const SingleRecipe = () => {
       return (
         <>
           <Input
-            value={changeRecipe.ingrediencies[editMode.listEl]}
+            value={changeRecipe.ingrediencies[editMode.listEl] || ""}
             onChange={(e) =>
               handleChangeRecipe(e, "ingrediencies", editMode.listEl)
             }
@@ -232,7 +232,7 @@ const SingleRecipe = () => {
                 <TextSection>
                   <SectionHeader>Prepare Time:</SectionHeader>
                   {editMode.mode && editMode.type === "cookTime" ? (
-                    <Text> {renderEditView("cookTime")} </Text>
+                    <div> {renderEditView("cookTime")} </div>
                   ) : (
                     <Text onClick={() => changeEditMode("cookTime")}>
                       {recipe.cookTime}
@@ -245,7 +245,7 @@ const SingleRecipe = () => {
                 <TextSection>
                   <SectionHeader>Skills:</SectionHeader>
                   {editMode.mode && editMode.type === "level" ? (
-                    <Text>{renderEditDropdownView("level")}</Text>
+                    <div>{renderEditDropdownView("level")}</div>
                   ) : (
                     <Text onClick={() => changeEditMode("level")}>
                       {recipe.level}
@@ -383,7 +383,11 @@ const Input = styled.input`
   font-size: 20px;
   width: 100%;
 `;
-const InputWrapper = styled.div``;
+const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 const Left = styled.div`
   flex: 1;
   padding: 20px;

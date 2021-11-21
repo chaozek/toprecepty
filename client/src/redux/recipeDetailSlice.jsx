@@ -8,7 +8,6 @@ export const getUser = createAsyncThunk(
       const response = await axios.post("/api/users/find/", id);
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }

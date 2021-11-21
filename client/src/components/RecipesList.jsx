@@ -37,7 +37,8 @@ const RecipesList = () => {
           </Recipes>
         ) : (
           recipes.map((s, i) => (
-            <LinkWrap key={i} image={s.img} to={`recipe/${s._id}`}>
+            <LinkWrap key={i} to={`recipe/${s._id}`}>
+              <Inside image={s.img}></Inside>
               <Header>{s.title}</Header>
             </LinkWrap>
           ))
@@ -68,14 +69,27 @@ const Recipes = styled.div`
   text-align: center;
   margin: 10px, 0px;
 `;
-const LinkWrap = styled(Link)`
-  position: relative;
+const Inside = styled.div`
+  width: 100%;
+  height: 100%;
   background-image: url(${(props) => props.image});
   background-position: center;
   background-size: cover;
+  transition: 0.7s;
+  &:hover {
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+`;
+const LinkWrap = styled(Link)`
+  position: relative;
+  background-color: white;
   cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
   &:hover ${Header} {
-    color: #${theme.color.orange};
+    color: ${theme.color.orange};
   }
 `;
 

@@ -9,7 +9,6 @@ export const signin = createAsyncThunk(
       localStorage.setItem("profile", JSON.stringify(response.data));
       return response.data;
     } catch (err) {
-      console.log(err.response.data);
       return rejectWithValue(err.response.data);
     }
   }
@@ -22,7 +21,6 @@ export const signup = createAsyncThunk(
       localStorage.setItem("profile", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -34,7 +32,6 @@ export const resetPassword = createAsyncThunk(
       const response = await axios.post("/api/users/reset-password", formData);
       return response.data.message;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -43,14 +40,12 @@ export const confirmResetPassword = createAsyncThunk(
   "user/confirm-reset-password",
   async (formData, { rejectWithValue }) => {
     try {
-      console.log(formData);
       const response = await axios.post(
         `/api/users/reset-password/${formData.slug}`,
         formData
       );
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -58,7 +53,7 @@ export const confirmResetPassword = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: {},
+    user: { result: "" },
     status: null,
     error: null,
     successfulySent: null,

@@ -43,7 +43,8 @@ const ChangePassword = () => {
         <Head>Change Password</Head>
         <Input
           name="password"
-          placeholder="password"
+          placeholder="New Password"
+          type="password"
           value={password.password}
           onChange={(e) => handleChange(e)}
         />

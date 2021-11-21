@@ -19,6 +19,13 @@ import { theme } from "../GlobalStyles";
 const FormSeg = () => {
   const [values, setValues] = useState({ val: [] });
   const [textAreaValues, setTextAreaValues] = useState({ tutorial: [] });
+  const [singleValues, setSingleValues] = useState({
+    values: {
+      title: "",
+      level: "",
+      cookTime: "",
+    },
+  });
   let count = 1;
   const { error } = useSelector((state) => state.recipes);
   const { status } = useSelector((state) => state.recipes);
@@ -66,7 +73,6 @@ const FormSeg = () => {
     setValues({ val: [...values.val, ""] });
   };
   //TEXTAREA
-
   const createTextArea = () => {
     return textAreaValues.tutorial.map((el, i) => (
       <TextAreaBlock key={count}>
@@ -103,13 +109,6 @@ const FormSeg = () => {
     dispatch(addRecipe(data));
   };
 
-  const [singleValues, setSingleValues] = useState({
-    values: {
-      title: "",
-      level: "",
-      cookTime: "",
-    },
-  });
   const handleSingleValues = (e) => {
     setSingleValues((prev) => ({
       values: { ...prev.values, [e.target.name]: e.target.value },
@@ -136,11 +135,12 @@ const FormSeg = () => {
       dispatch(removeError());
     }, 2000);
   }, [error, dispatch]);
+
   const handleUpload = (e) => {
     const storage = getStorage(app);
     const storageRef = ref(storage, e.target.files[0].name);
     const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
-
+    console.log(e.target.files[0].name);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -186,28 +186,32 @@ const FormSeg = () => {
     <Container>
       <Form>
         <Section>
-          <Header>Recipe name</Header>
+          <Header>Recipe details</Header>
           <Inside>
-            <Input
-              type="text"
-              placeholder="Recipe Name"
-              value={singleValues.values.title}
-              name="title"
-              onChange={handleSingleValues}
-              required="required"
-            />
-            <Input
-              placeholder="Prepare Time"
-              value={singleValues.values.cookTime}
-              onChange={handleSingleValues}
-              name="cookTime"
-            />
+            <Devide>
+              <Input
+                type="text"
+                placeholder="Recipe Name"
+                value={singleValues.values.title}
+                name="title"
+                onChange={handleSingleValues}
+                required="required"
+              />
+              <Input
+                placeholder="Prepare Time"
+                value={singleValues.values.cookTime}
+                onChange={handleSingleValues}
+                name="cookTime"
+              />
+            </Devide>
             <Select
               onChange={handleSingleValues}
               value={singleValues.values.level}
               name="level"
             >
-              <Option disabled hidden value=""></Option>
+              <Option disabled hidden value="">
+                Select Skill Level
+              </Option>
 
               <Option value="Simple">Simple</Option>
               <Option value="Middle">Middle</Option>
@@ -227,7 +231,7 @@ const FormSeg = () => {
               id="file"
               name="myfile"
             />
-            <UploadText>{upload && upload}</UploadText>
+            <UploadText>{upload}</UploadText>
           </Inside>
         </Section>
         <Section>
@@ -246,7 +250,7 @@ const FormSeg = () => {
           </Inside>
         </Section>
         <Section>
-          <Header>How To Prepare</Header>
+          <Header>How to prepare</Header>
           <Inside>
             {createTextArea()}
             <ControlPointIcon
@@ -281,8 +285,13 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 `;
-const Section = styled.p`
+const Section = styled.div`
   z-index: 100;
+`;
+const Devide = styled.div`
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
 `;
 const LinkWrap = styled(Link)`
   z-index: 100;
@@ -356,13 +365,16 @@ export const Error = styled.div`
   margin-bottom: 10px;
 `;
 export const Select = styled.select`
+  -webkit-appearance: none;
   background-color: ${theme.color.gray};
   border: none;
   margin: 5px;
   height: 40px;
   border-radius: none;
-  width: 200px;
+  width: 100%;
   font-size: 16px;
+  color: gray;
+  padding-left: 10px;
 `;
 export const Count = styled.div`
   top: -10px;
@@ -382,6 +394,7 @@ export const Count = styled.div`
 export const Option = styled.option`
   border-radius: none;
   border: none;
+  color: black;
 `;
 export const Image = styled.div`
   width: 100%;
@@ -393,7 +406,10 @@ export const Img = styled.img`
   width: 100px;
 `;
 const Header = styled.h3`
-  padding-top: 20px;
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  font-weight: 100;
 `;
 
 const Form = styled.form`
@@ -455,15 +471,13 @@ const TextAreaBlock = styled.div`
   align-items: center;
 `;
 export const Input = styled.input`
+  flex: 1;
+
   background-color: ${theme.color.gray};
   border: none;
   margin: 5px;
   height: 20px;
-
-  ${(props) =>
-    props.type === "name" &&
-    `
-
-    `}
+  width: 100%;
+  min-width: 40%;
 `;
 export default FormSeg;
