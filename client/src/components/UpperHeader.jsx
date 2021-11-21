@@ -12,7 +12,6 @@ const UpperHeader = () => {
   const localStorageItem = JSON.parse(localStorage.getItem("profile"));
   const history = useHistory();
   const newUser = useSelector((state) => state?.user.user.result);
-
   useEffect(() => {
     if (
       (location.pathname === "/login" && newUser) ||
@@ -32,12 +31,12 @@ const UpperHeader = () => {
     if (localStorageItem) {
       dispatch(auth());
     }
-// eslint-disable-next-line
-}, [dispatch]);
+    // eslint-disable-next-line
+  }, [dispatch]);
 
   return (
     <Container>
-      <Left>{newUser ? <p>{newUser.username}</p> : ""}</Left>
+      <Left>{newUser ? <p>{newUser.username.toUpperCase()}</p> : ""}</Left>
       <Right>
         {newUser ? "" : <LinkWrap to="/login">Login</LinkWrap>}
         {newUser ? "" : <LinkWrap to="/register">Register</LinkWrap>}

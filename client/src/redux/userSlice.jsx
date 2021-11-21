@@ -53,7 +53,7 @@ export const confirmResetPassword = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: { result: "" },
+    user: { result: { email: "", password: "", username: "" } },
     status: null,
     error: null,
     successfulySent: null,
