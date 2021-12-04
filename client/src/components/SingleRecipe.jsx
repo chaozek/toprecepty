@@ -40,7 +40,6 @@ const SingleRecipe = () => {
   console.log(recipe);
   useEffect(() => {
     dispatch(getRecipe(path));
-
     return () => {
       dispatch(removeRecipe());
     };
@@ -84,10 +83,10 @@ const SingleRecipe = () => {
     });
     dispatch(getRecipe(path));
   };
+  useEffect(() => {
+    dispatch(getRecipe(path));
+  }, [dispatch, path]);
 
-  const filterFun = (arr) => {
-    return arr.filter((e) => console.log(e));
-  };
 
   const handleChangeRecipe = (e, type, i) => {
     if (type === "ingrediencies") {
@@ -108,7 +107,7 @@ const SingleRecipe = () => {
 
       setChangeRecipe((prev) => ({
         ...prev,
-        tutorial: filterFun(temp_state),
+        tutorial: temp_state,
       }));
     } else {
       setChangeRecipe((prev) => ({
