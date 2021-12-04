@@ -46,15 +46,11 @@ export const removeRecipeFromArray = createAsyncThunk(
 );
 export const editRecipe = createAsyncThunk("api/editRecipe", async (recipe) => {
   try {
-    /* recipe.ingrediencies.filter(function (e) {
-      return e !== "";
-    });
-    console.log(recipe); */
-
     const newObj = { ...recipe };
     newObj.ingrediencies = recipe.ingrediencies.filter(function (e) {
       return e !== "";
     });
+
     const response = await axios.put(`/api/recipes/edit/${recipe._id}`, newObj);
     return response.data;
   } catch (err) {
@@ -113,7 +109,13 @@ const recipesSlice = createSlice({
       state.status = "loading";
     },
     [editRecipe.fulfilled]: (state, action) => {
-      state.recipes = [...state.recipes, action.payload];
+      console.log("TADY", action.payload._id);
+
+      var foundIndex = state.recipes.findIndex(
+        (x) => x.id === action.payload._id
+      );
+      state.recipes[foundIndex] = action.payload;
+
       state.status = "success";
     },
     [editRecipe.rejected]: (state) => {

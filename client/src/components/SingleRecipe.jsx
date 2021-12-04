@@ -37,9 +37,10 @@ const SingleRecipe = () => {
   let slug = useParams();
   // Just For Showing different ways to get ID from URL...
   const path = history.location.pathname.split("/", 3)[2];
-
+  console.log(recipe);
   useEffect(() => {
     dispatch(getRecipe(path));
+
     return () => {
       dispatch(removeRecipe());
     };
@@ -76,12 +77,12 @@ const SingleRecipe = () => {
   const saveChangeRecipe = () => {
     dispatch(editRecipe(changeRecipe));
     setEditMode(!editMode);
-    dispatch(getRecipe(path));
     setEditMode({
       type: "",
       mode: false,
       listEl: "",
     });
+    dispatch(getRecipe(path));
   };
 
   const filterFun = (arr) => {
@@ -184,7 +185,6 @@ const SingleRecipe = () => {
       );
     }
   };
-
   const renderSkeleton = (count = 1, width, variant) => {
     const skeletonArray = Array(count).fill("");
     return skeletonArray.map((item, i) => (

@@ -19,7 +19,7 @@ const RecipesList = () => {
     dispatch(removeStatus());
     // eslint-disable-next-line
   }, []);
-
+  console.log(recipes);
   const skeletonArray = Array(20).fill("");
   const renderNotFoundBlock = () => {
     return <div>NO RECIPE WAS FOUND, SEARCH AGAIN</div>;

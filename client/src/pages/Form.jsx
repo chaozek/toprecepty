@@ -21,7 +21,8 @@ export const Container = styled.div`
   min-height: 700px;
   background-position: 98% 100%;
   background-repeat: no-repeat;
-  height: 100vh;
+  margin-bottom: 50px;
+
   @media (max-width: 768px) {
     width: 100%;
   }

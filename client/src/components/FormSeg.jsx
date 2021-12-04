@@ -58,8 +58,10 @@ const FormSeg = () => {
       </Item>
     ));
   };
-
+  console.log(error && error.length, "ERROR");
   function handleChange(event) {
+    dispatch(removeError());
+
     let vals = [...values.val];
     vals[this] = event.target.value;
     setValues({ val: vals });
@@ -90,6 +92,8 @@ const FormSeg = () => {
     setTextAreaValues({ tutorial: [...textAreaValues.tutorial, ""] });
   };
   function handleTextAreaChange(e) {
+    dispatch(removeError());
+
     let vals = [...textAreaValues.tutorial];
     vals[this] = e.target.value;
     setTextAreaValues({ tutorial: vals });
@@ -107,12 +111,18 @@ const FormSeg = () => {
     };
 
     dispatch(addRecipe(data));
-    if (status === "success") {
+    if (
+      data.title.length > 0 &&
+      data.level.length > 0 &&
+      data.ingrediencies.length > 0 &&
+      data.tutorial.length > 0
+    ) {
       history.push("/");
     }
   };
-
   const handleSingleValues = (e) => {
+    dispatch(removeError());
+
     setSingleValues((prev) => ({
       values: { ...prev.values, [e.target.name]: e.target.value },
     }));
@@ -123,21 +133,24 @@ const FormSeg = () => {
     }
   };
   useEffect(() => {
- 
-  }, [status, history]);
-  useEffect(() => {
     return () => {
       dispatch(removeError());
     };
   }, [dispatch]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(removeError());
-    }, 2000);
-  }, [error, dispatch]);
-
+  /* useEffect(() => {
+    if (
+      singleValues.values.title.length > 0 &&
+      singleValues.values.title.level > 0 &&
+      singleValues.values.title.cookTime > 0 &&
+      error === null &&
+      status !== "failed"
+    ) {
+      history.push("/");
+    }
+  }, [error, history, singleValues, status]); */
   const handleUpload = (e) => {
+    dispatch(removeError());
+
     const storage = getStorage(app);
     const storageRef = ref(storage, e.target.files[0].name);
     const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
