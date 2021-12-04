@@ -17,16 +17,20 @@ const RecipesList = () => {
 
   useEffect(() => {
     dispatch(removeStatus());
-  }, [status, dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
   const skeletonArray = Array(20).fill("");
-
+  const renderNotFoundBlock = () => {
+    return <div>NO RECIPE WAS FOUND, SEARCH AGAIN</div>;
+  };
+  console.log(status);
   return (
     <Container>
       <Recipes>
         {status === "loading" ? (
           <Recipes>
-            {skeletonArray.map((item, i) => (
+            {skeletonArray.map((data, i) => (
               <Skeleton
                 key={i}
                 variant="rectangular"
@@ -37,13 +41,14 @@ const RecipesList = () => {
           </Recipes>
         ) : (
           recipes.map((s, i) => (
-            <LinkWrap key={i} to={`recipe/${s._id}`}>
+            <LinkWrap key={s._id} to={`recipe/${s._id}`}>
               <Inside image={s.img}></Inside>
               <Header>{s.title}</Header>
             </LinkWrap>
           ))
         )}
       </Recipes>
+      {status !== "loading" && recipes.length === 0 && renderNotFoundBlock()}
     </Container>
   );
 };

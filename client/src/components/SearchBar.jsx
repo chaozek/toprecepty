@@ -16,7 +16,6 @@ const SearchBar = () => {
     e.preventDefault();
     if (history.location !== "/") {
       dispatch(searchRecipe(term));
-      history.push("/");
       if (term.length > 0) {
         dispatch(searchRecipe(term));
       } else {

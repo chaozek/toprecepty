@@ -34,7 +34,6 @@ const UpperHeader = () => {
     }
     // eslint-disable-next-line
   }, [dispatch]);
-  console.log(newUser.username.length);
   return (
     <Container>
       <Left>{newUser ? <p>{newUser.username.toUpperCase()}</p> : ""}</Left>

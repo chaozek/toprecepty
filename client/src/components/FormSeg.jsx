@@ -107,6 +107,9 @@ const FormSeg = () => {
     };
 
     dispatch(addRecipe(data));
+    if (status === "success") {
+      history.push("/");
+    }
   };
 
   const handleSingleValues = (e) => {
@@ -120,9 +123,7 @@ const FormSeg = () => {
     }
   };
   useEffect(() => {
-    if (status === "success") {
-      history.push("/");
-    }
+ 
   }, [status, history]);
   useEffect(() => {
     return () => {

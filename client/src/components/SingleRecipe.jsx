@@ -43,7 +43,7 @@ const SingleRecipe = () => {
     return () => {
       dispatch(removeRecipe());
     };
-  }, [dispatch, path, slug, editMode]);
+  }, [dispatch, path, slug]);
 
   useEffect(() => {
     setChangeRecipe(recipe);
@@ -56,7 +56,8 @@ const SingleRecipe = () => {
     return () => {
       dispatch(removeDetails());
     };
-  }, [dispatch, recipe.creator]);
+    // eslint-disable-next-line
+  }, [recipe.creator]);
 
   const handleDelete = () => {
     dispatch(removeRecipeFromArray(slug.id));
@@ -381,6 +382,7 @@ const TextArea = styled.textarea`
   height: 20vh;
   border: none;
   padding: 5px;
+  background-color: ${theme.color.gray};
 `;
 const SkeletonTut = styled(Skeleton)`
   margin: 10px;
