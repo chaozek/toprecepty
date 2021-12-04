@@ -55,7 +55,7 @@ router.post(`/reset-password/:userId/:token`, async (req, res) => {
       token: req.params.token,
     });
     if (!token) {
-      res.status(404).send("Invalid Link Rr Expired Token");
+      res.status(404).send("Invalid Link or Expired Token");
       return;
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 12);

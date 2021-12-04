@@ -26,7 +26,7 @@ const UpperHeader = () => {
         dispatch(logout());
       }
     }
-  }, [newUser, history, dispatch, localStorageItem, location.pathname]);
+  });
 
   useEffect(() => {
     if (localStorageItem) {

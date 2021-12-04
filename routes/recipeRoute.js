@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Recipe = require("../models/recipe");
 const auth = require("../middleware/auth");
+
 router.get("/", async (req, res) => {
   try {
     const foundRecipes = await Recipe.find();
@@ -9,6 +10,7 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 router.get("/search", async (req, res) => {
   const { searchQuery } = req.query;
   try {
@@ -19,6 +21,7 @@ router.get("/search", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 router.get("/:id", async (req, res) => {
   try {
     const foundRecipe = await Recipe.findById(req.params.id);
@@ -27,6 +30,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).json(error.message);
   }
 });
+
 router.post("/", auth, async (req, res) => {
   const newRecipe = new Recipe({
     ...req.body,
@@ -60,6 +64,7 @@ router.post("/", auth, async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 router.put("/edit/:id", async (req, res) => {
   const foundRecipe = await Recipe.findByIdAndUpdate(
     req.params.id,
@@ -74,6 +79,7 @@ router.put("/edit/:id", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 router.delete("/:id", async (req, res) => {
   try {
     await Recipe.findByIdAndRemove(req.params.id);
@@ -82,4 +88,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 module.exports = router;

@@ -46,7 +46,16 @@ export const removeRecipeFromArray = createAsyncThunk(
 );
 export const editRecipe = createAsyncThunk("api/editRecipe", async (recipe) => {
   try {
-    const response = await axios.put(`/api/recipes/edit/${recipe._id}`, recipe);
+    /* recipe.ingrediencies.filter(function (e) {
+      return e !== "";
+    });
+    console.log(recipe); */
+
+    const newObj = { ...recipe };
+    newObj.ingrediencies = recipe.ingrediencies.filter(function (e) {
+      return e !== "";
+    });
+    const response = await axios.put(`/api/recipes/edit/${recipe._id}`, newObj);
     return response.data;
   } catch (err) {
     console.log(err);

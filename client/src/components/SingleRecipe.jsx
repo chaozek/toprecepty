@@ -18,7 +18,7 @@ import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import Popup from "./Popup";
 import { getUser, removeDetails } from "../redux/recipeDetailSlice";
 import { theme } from "../GlobalStyles";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const SingleRecipe = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -27,7 +27,6 @@ const SingleRecipe = () => {
   const { status } = useSelector((state) => state.recipe);
   const creatorName = useSelector((state) => state.recipeDetail);
   let count = 1;
-
   const [editMode, setEditMode] = useState({
     type: "",
     mode: false,
@@ -51,13 +50,13 @@ const SingleRecipe = () => {
   }, [recipe, Recipesstatus]);
 
   useEffect(() => {
-    if (status === "success" && recipe.creator !== undefined) {
+    if (recipe.creator !== undefined) {
       dispatch(getUser({ id: recipe.creator }));
     }
     return () => {
       dispatch(removeDetails());
     };
-  }, [recipe.creator, status, dispatch]);
+  }, [dispatch, recipe.creator]);
 
   const handleDelete = () => {
     dispatch(removeRecipeFromArray(slug.id));
@@ -85,7 +84,7 @@ const SingleRecipe = () => {
   };
 
   const filterFun = (arr) => {
-    return arr.filter((e) => e);
+    return arr.filter((e) => console.log(e));
   };
 
   const handleChangeRecipe = (e, type, i) => {
@@ -93,11 +92,11 @@ const SingleRecipe = () => {
       let temp_state = [...recipe.ingrediencies];
       let temp_element = temp_state[i];
       temp_element = e.target.value;
+
       temp_state[i] = temp_element;
-      //temp_state.map((s) => s ===""?);
       setChangeRecipe((prev) => ({
         ...prev,
-        ingrediencies: filterFun(temp_state),
+        ingrediencies: temp_state,
       }));
     } else if (type === "tutorial") {
       let temp_state = [...recipe.tutorial];
@@ -285,7 +284,19 @@ const SingleRecipe = () => {
           ) : (
             recipe.ingrediencies.map((p, i) => (
               <Ul key={i}>
-                <Li onClick={() => changeEditMode("ingrediencies", i)}>{p}</Li>
+                <Li onClick={() => changeEditMode("ingrediencies", i)}>
+                  <ArrowForwardIosIcon
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "row",
+                      color: `${theme.color.orange}`,
+                      width: "20px",
+                    }}
+                  />
+                  {p}
+                </Li>
               </Ul>
             ))
           )}
@@ -381,7 +392,10 @@ const TextSection = styled.div`
 `;
 const Input = styled.input`
   font-size: 20px;
-  width: 100%;
+  width: 90%;
+  border-radius: 10px;
+
+  background-color: ${theme.color.gray};
 `;
 const InputWrapper = styled.div`
   display: flex;
@@ -412,19 +426,31 @@ const Header = styled.h1`
 
 const Text = styled.p`
   cursor: pointer;
+  padding: 10px 0px;
+  border-radius: 10px;
+  &:hover {
+    background-color: ${theme.color.gray};
+  }
 `;
-const Ul = styled.ul``;
+const Ul = styled.ul`
+  padding: 0;
+`;
 const TutorialBlock = styled.div`
   position: relative;
   background-color: ${theme.color.white};
   min-height: 100px;
-  padding: 20px;
   margin-bottom: 20px;
   background-color: ${theme.color.gray};
   border-left: 2px dashed ${theme.color.orange};
+  padding: 20px;
 `;
 const Li = styled.li`
   cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 10px;
   &:hover {
     background-color: ${theme.color.gray};
   }

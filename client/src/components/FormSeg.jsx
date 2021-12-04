@@ -374,7 +374,7 @@ export const Select = styled.select`
   width: 100%;
   font-size: 16px;
   color: gray;
-  padding-left: 10px;
+  padding: 10px;
 `;
 export const Count = styled.div`
   top: -10px;
@@ -392,7 +392,8 @@ export const Count = styled.div`
   z-index: 20;
 `;
 export const Option = styled.option`
-  border-radius: none;
+  border-radius: 10px;
+  padding: 10px;
   border: none;
   color: black;
 `;
