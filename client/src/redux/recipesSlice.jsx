@@ -109,8 +109,6 @@ const recipesSlice = createSlice({
       state.status = "loading";
     },
     [editRecipe.fulfilled]: (state, action) => {
-      console.log("TADY", action.payload._id);
-
       var foundIndex = state.recipes.findIndex(
         (x) => x.id === action.payload._id
       );

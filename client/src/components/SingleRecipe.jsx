@@ -23,7 +23,7 @@ const SingleRecipe = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { recipe } = useSelector((state) => state.recipe);
-  const { Recipesstatus } = useSelector((state) => state.recipes);
+  const { recipesstatus } = useSelector((state) => state.recipes);
   const { status } = useSelector((state) => state.recipe);
   const creatorName = useSelector((state) => state.recipeDetail);
   let count = 1;
@@ -37,7 +37,6 @@ const SingleRecipe = () => {
   let slug = useParams();
   // Just For Showing different ways to get ID from URL...
   const path = history.location.pathname.split("/", 3)[2];
-  console.log(recipe);
   useEffect(() => {
     dispatch(getRecipe(path));
     return () => {
@@ -47,7 +46,7 @@ const SingleRecipe = () => {
 
   useEffect(() => {
     setChangeRecipe(recipe);
-  }, [recipe, Recipesstatus]);
+  }, [recipe, recipesstatus]);
 
   useEffect(() => {
     if (recipe.creator !== undefined) {
@@ -73,7 +72,7 @@ const SingleRecipe = () => {
     }));
   };
 
-  const saveChangeRecipe = () => {
+  const saveChangeRecipe = async () => {
     dispatch(editRecipe(changeRecipe));
     setEditMode(!editMode);
     setEditMode({
@@ -81,13 +80,13 @@ const SingleRecipe = () => {
       mode: false,
       listEl: "",
     });
-    dispatch(getRecipe(path));
   };
   useEffect(() => {
-    dispatch(getRecipe(path));
-  }, [dispatch, path]);
-
-
+    if (editMode.mode === false) {
+      dispatch(getRecipe(path));
+    }
+    // eslint-disable-next-line
+  }, [recipesstatus, editMode]);
   const handleChangeRecipe = (e, type, i) => {
     if (type === "ingrediencies") {
       let temp_state = [...recipe.ingrediencies];
