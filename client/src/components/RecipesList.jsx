@@ -6,6 +6,7 @@ import { getRecipes, removeStatus } from "../redux/recipesSlice";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 import { theme } from "../GlobalStyles";
+
 const RecipesList = () => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.recipes.status);
@@ -42,8 +43,8 @@ const RecipesList = () => {
         ) : (
           recipes.map((s, i) => (
             <LinkWrap key={s._id} to={`recipe/${s._id}`}>
-              <Inside image={s.img}></Inside>
-              <Header>{s.title}</Header>
+                <Inside image={s.img}></Inside>
+                <Header>{s.title}</Header>
             </LinkWrap>
           ))
         )}

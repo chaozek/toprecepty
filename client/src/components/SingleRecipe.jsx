@@ -19,11 +19,13 @@ import Popup from "./Popup";
 import { getUser, removeDetails } from "../redux/recipeDetailSlice";
 import { theme } from "../GlobalStyles";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Fade from "react-reveal/Fade";
+
 const SingleRecipe = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { recipe } = useSelector((state) => state.recipe);
-  const { recipesstatus } = useSelector((state) => state.recipes);
+  const recipes = useSelector((state) => state.recipes.status);
   const { status } = useSelector((state) => state.recipe);
   const creatorName = useSelector((state) => state.recipeDetail);
   let count = 1;
@@ -46,8 +48,7 @@ const SingleRecipe = () => {
 
   useEffect(() => {
     setChangeRecipe(recipe);
-  }, [recipe, recipesstatus]);
-
+  }, [recipe, recipes]);
   useEffect(() => {
     if (recipe.creator !== undefined) {
       dispatch(getUser({ id: recipe.creator }));
@@ -81,12 +82,7 @@ const SingleRecipe = () => {
       listEl: "",
     });
   };
-  useEffect(() => {
-    if (editMode.mode === false) {
-      dispatch(getRecipe(path));
-    }
-    // eslint-disable-next-line
-  }, [recipesstatus, editMode]);
+
   const handleChangeRecipe = (e, type, i) => {
     if (type === "ingrediencies") {
       let temp_state = [...recipe.ingrediencies];
@@ -197,6 +193,11 @@ const SingleRecipe = () => {
       dispatch(addStep());
     }
   };
+  useEffect(() => {
+    if (editMode.mode === false && recipes === "success") {
+      dispatch(getRecipe(path));
+    }
+  }, [recipes, editMode, dispatch, path]);
 
   return (
     <Wrapper>
@@ -213,151 +214,156 @@ const SingleRecipe = () => {
       ) : (
         <Header cursor="true">{recipe.title}</Header>
       )}
-      <Container>
-        <Left>
-          <BlockHeader>Info</BlockHeader>
+      <Fade>
+        <Container>
+          <Left>
+            <BlockHeader>Info</BlockHeader>
+            {status === "loading" ? (
+              <>
+                {renderSkeleton(1, "50%", "text")}
+                {renderSkeleton(1, "30%", "text")}
+                {renderSkeleton(1, "50%", "text")}
+                {renderSkeleton(1, "30%", "text")}
+              </>
+            ) : (
+              <>
+                <Section>
+                  <AccessTimeIcon />
+                  <TextSection>
+                    <SectionHeader>Prepare Time:</SectionHeader>
+                    {editMode.mode && editMode.type === "cookTime" ? (
+                      <div> {renderEditView("cookTime")} </div>
+                    ) : (
+                      <Text onClick={() => changeEditMode("cookTime")}>
+                        {recipe.cookTime}
+                      </Text>
+                    )}
+                  </TextSection>
+                </Section>
+
+                <Section>
+                  <LocalDiningIcon />
+                  <TextSection>
+                    <SectionHeader>Skills:</SectionHeader>
+                    {editMode.mode && editMode.type === "level" ? (
+                      <div>{renderEditDropdownView("level")}</div>
+                    ) : (
+                      <Text onClick={() => changeEditMode("level")}>
+                        {recipe.level}
+                      </Text>
+                    )}
+                  </TextSection>
+                </Section>
+                <Section>
+                  <PersonOutlineIcon />
+                  <TextSection>
+                    <SectionHeader>Author:</SectionHeader>
+                    {creatorName.status === "loading" ? (
+                      renderSkeleton(1, "100%", "text")
+                    ) : (
+                      <Text>{creatorName?.authorName}</Text>
+                    )}
+                  </TextSection>
+                </Section>
+              </>
+            )}
+          </Left>
           {status === "loading" ? (
-            <>
-              {renderSkeleton(1, "50%", "text")}
-              {renderSkeleton(1, "30%", "text")}
-              {renderSkeleton(1, "50%", "text")}
-              {renderSkeleton(1, "30%", "text")}
-            </>
+            <Skeleton variant="rectangular" height="450px" width="450px" />
           ) : (
-            <>
-              <Section>
-                <AccessTimeIcon />
-                <TextSection>
-                  <SectionHeader>Prepare Time:</SectionHeader>
-                  {editMode.mode && editMode.type === "cookTime" ? (
-                    <div> {renderEditView("cookTime")} </div>
-                  ) : (
-                    <Text onClick={() => changeEditMode("cookTime")}>
-                      {recipe.cookTime}
-                    </Text>
-                  )}
-                </TextSection>
-              </Section>
-              <Section>
-                <LocalDiningIcon />
-                <TextSection>
-                  <SectionHeader>Skills:</SectionHeader>
-                  {editMode.mode && editMode.type === "level" ? (
-                    <div>{renderEditDropdownView("level")}</div>
-                  ) : (
-                    <Text onClick={() => changeEditMode("level")}>
-                      {recipe.level}
-                    </Text>
-                  )}
-                </TextSection>
-              </Section>
-              <Section>
-                <PersonOutlineIcon />
-                <TextSection>
-                  <SectionHeader>Author:</SectionHeader>
-                  {creatorName.status === "loading" ? (
-                    renderSkeleton(1, "100%", "text")
-                  ) : (
-                    <Text>{creatorName?.authorName}</Text>
-                  )}
-                </TextSection>
-              </Section>
-            </>
+            <RightImage>
+              <Image src={recipe.img} />
+            </RightImage>
           )}
-        </Left>
-        {status === "loading" ? (
-          <Skeleton variant="rectangular" height="450px" width="450px" />
-        ) : (
-          <RightImage>
-            <Image src={recipe.img} />
-          </RightImage>
-        )}
-      </Container>
-      <Container>
-        <Left>
-          <BlockHeader>Ingrediencies</BlockHeader>
-          {editMode.mode && editMode.type === "ingrediencies" ? (
-            renderEditListView("ingrediencies")
-          ) : status === "loading" ? (
-            <>{renderSkeleton(10, "text")}</>
-          ) : (
-            recipe.ingrediencies.map((p, i) => (
-              <Ul key={i}>
-                <Li onClick={() => changeEditMode("ingrediencies", i)}>
-                  <ArrowForwardIosIcon
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                      color: `${theme.color.orange}`,
-                      width: "20px",
-                    }}
-                  />
-                  {p}
-                </Li>
-              </Ul>
-            ))
-          )}
-          {editMode.type === "ingrediencies" ? (
-            ""
-          ) : (
-            <Button
-              onClick={() => handleAddStep("ingrendience")}
-              color="FBB03B"
-              padding="9px"
-            >
-              <ControlPointIcon
-                style={{ fontSize: "17px", marginRight: "5px" }}
-              />
-              Add Ingrendience
-            </Button>
-          )}
-        </Left>
-        <Right tutorial>
-          <BlockHeader>How To Prepare</BlockHeader>
-          {editMode.mode && editMode.type === "tutorial" ? (
-            renderEditListView("tutorial")
-          ) : status === "loading" ? (
-            <>
-              <SkeletonTut
-                variant="rectangular"
-                height="200px"
-                animation="pulse"
-              />
-              <SkeletonTut
-                variant="rectangular"
-                height="200px"
-                animation="pulse"
-              />
-              <SkeletonTut
-                variant="rectangular"
-                height="200px"
-                animation="pulse"
-              />
-            </>
-          ) : (
-            recipe.tutorial.map((p, i) => (
-              <div key={i}>
-                <TutorialBlock onClick={() => changeEditMode("tutorial", i)}>
-                  <Text>{p}</Text>
-                  <Count>{count++}</Count>
-                </TutorialBlock>
-              </div>
-            ))
-          )}
-          {editMode.type === "tutorial" ? (
-            ""
-          ) : (
-            <Button onClick={handleAddStep} color="FBB03B" padding="9px">
-              <ControlPointIcon
-                style={{ fontSize: "17px", marginRight: "5px" }}
-              />
-              Add Step
-            </Button>
-          )}
-        </Right>
-      </Container>
+        </Container>
+      </Fade>
+      <Fade>
+        <Container>
+          <Left>
+            <BlockHeader>Ingrediencies</BlockHeader>
+            {editMode.mode && editMode.type === "ingrediencies" ? (
+              renderEditListView("ingrediencies")
+            ) : status === "loading" ? (
+              <>{renderSkeleton(10, "text")}</>
+            ) : (
+              recipe.ingrediencies.map((p, i) => (
+                <Ul key={i}>
+                  <Li onClick={() => changeEditMode("ingrediencies", i)}>
+                    <ArrowForwardIosIcon
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "row",
+                        color: `${theme.color.orange}`,
+                        width: "20px",
+                      }}
+                    />
+                    {p}
+                  </Li>
+                </Ul>
+              ))
+            )}
+            {editMode.type === "ingrediencies" ? (
+              ""
+            ) : (
+              <Button
+                onClick={() => handleAddStep("ingrendience")}
+                color="FBB03B"
+                padding="9px"
+              >
+                <ControlPointIcon
+                  style={{ fontSize: "17px", marginRight: "5px" }}
+                />
+                Add Ingrendience
+              </Button>
+            )}
+          </Left>
+          <Right tutorial>
+            <BlockHeader>How To Prepare</BlockHeader>
+            {editMode.mode && editMode.type === "tutorial" ? (
+              renderEditListView("tutorial")
+            ) : status === "loading" ? (
+              <>
+                <SkeletonTut
+                  variant="rectangular"
+                  height="200px"
+                  animation="pulse"
+                />
+                <SkeletonTut
+                  variant="rectangular"
+                  height="200px"
+                  animation="pulse"
+                />
+                <SkeletonTut
+                  variant="rectangular"
+                  height="200px"
+                  animation="pulse"
+                />
+              </>
+            ) : (
+              recipe.tutorial.map((p, i) => (
+                <div key={i}>
+                  <TutorialBlock onClick={() => changeEditMode("tutorial", i)}>
+                    <Text>{p}</Text>
+                    <Count>{count++}</Count>
+                  </TutorialBlock>
+                </div>
+              ))
+            )}
+            {editMode.type === "tutorial" ? (
+              ""
+            ) : (
+              <Button onClick={handleAddStep} color="FBB03B" padding="9px">
+                <ControlPointIcon
+                  style={{ fontSize: "17px", marginRight: "5px" }}
+                />
+                Add Step
+              </Button>
+            )}
+          </Right>
+        </Container>
+      </Fade>
       <ButtonWrapper>
         {newUser?._id === recipe.creator && (
           <Button onClick={handleDelete} color="ed1c24">
